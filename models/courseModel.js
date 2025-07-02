@@ -8,7 +8,6 @@ const courseSchema = mongoose.Schema(
     Baseprice: { type: Number, required: true },
     noOfStudents: { type: Number, required: true },
     image: { type: String, required: true },
-    time: { type: Date, default: Date.now },
   },
   {
     timestamps: true,
