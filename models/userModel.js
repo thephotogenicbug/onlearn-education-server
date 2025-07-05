@@ -5,11 +5,12 @@ const userSchema = mongoose.Schema(
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    verifyOtp: { type: String, required: true },
+    verifyOtp: { type: String, default: "" },
     verifyOtpExpireAt: { type: Number, default: 0 },
     isAccountVerified: { type: Boolean, default: false },
     resetOtp: { type: String, default: "" },
     resetOTPExpireAt: { type: Number, default: 0 },
+    isAdmin: { type: Boolean, default: false },
   },
   {
     timestamps: true,
