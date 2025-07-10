@@ -94,3 +94,21 @@ export const deleteCourse = async (req, res) => {
     return res.json({ success: false, message: error.message });
   }
 };
+// @get - courses created by admin
+export const getAdminCourses = async (req, res) => {
+  try {
+    const courses = await courseModel.find({ createdBy: req.user.id });
+    return res.json({ success: true, courses });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+// @get - courses for public
+export const getPublicCourses = async (req, res) => {
+  try {
+    const courses = await courseModel.find({ isPublic: true });
+    return res.json({ success: true, courses });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};

@@ -10,7 +10,7 @@ const courseSchema = mongoose.Schema(
     image: { type: String, required: true },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "users",
       required: true,
     },
     isPublic: { type: Boolean, default: true },
