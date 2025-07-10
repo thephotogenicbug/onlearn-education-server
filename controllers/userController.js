@@ -26,9 +26,13 @@ export const adminregister = async (req, res) => {
     await user.save();
 
     // generate token
-    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const token = jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
     // send token in cookie
     res.cookie("token", token, {
@@ -64,7 +68,7 @@ export const adminlogin = async (req, res) => {
     }
 
     // generate token
-    const token = await jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+    const token = await jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
 

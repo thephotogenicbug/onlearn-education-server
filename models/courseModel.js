@@ -8,6 +8,12 @@ const courseSchema = mongoose.Schema(
     Baseprice: { type: Number, required: true },
     noOfStudents: { type: Number, required: true },
     image: { type: String, required: true },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    isPublic: { type: Boolean, default: true },
   },
   {
     timestamps: true,

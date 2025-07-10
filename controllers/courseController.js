@@ -24,6 +24,8 @@ export const newcourse = async (req, res) => {
       Baseprice: baseprice,
       noOfStudents: no_of_students,
       image: image,
+      createdBy: req.user.id,
+      isPublic: true,
     });
     courses.save();
     return res.json({
@@ -60,6 +62,7 @@ export const updateCourse = async (req, res) => {
       BasePrice: baseprice,
       noOfStudents: no_of_students,
       image: image,
+      isPublic: true,
     });
     return res.json({
       success: true,
