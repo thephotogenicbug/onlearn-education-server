@@ -2,7 +2,7 @@ import courseModel from "../models/courseModel.js";
 
 // @post - new course
 export const newcourse = async (req, res) => {
-  const { coursename, coursedesc, price, baseprice, no_of_students, image } =
+  const { coursename, coursedesc, price, baseprice, image } =
     req.body;
 
   if (
@@ -10,7 +10,6 @@ export const newcourse = async (req, res) => {
     !coursedesc ||
     !price ||
     !baseprice ||
-    !no_of_students ||
     !image
   ) {
     return res.json({ success: false, message: "missing course information" });
@@ -22,7 +21,6 @@ export const newcourse = async (req, res) => {
       courseDesc: coursedesc,
       price: price,
       Baseprice: baseprice,
-      noOfStudents: no_of_students,
       image: image,
       createdBy: req.user.id,
       isPublic: true,
@@ -40,7 +38,7 @@ export const newcourse = async (req, res) => {
 // @put - edit course
 export const updateCourse = async (req, res) => {
   const { id } = req.params;
-  const { coursename, coursedesc, price, baseprice, no_of_students, image } =
+  const { coursename, coursedesc, price, baseprice, image } =
     req.body;
 
   if (
@@ -48,7 +46,6 @@ export const updateCourse = async (req, res) => {
     !coursedesc ||
     !price ||
     !baseprice ||
-    !no_of_students ||
     !image
   ) {
     return res.json({ success: false, message: "missing course information" });
@@ -60,7 +57,6 @@ export const updateCourse = async (req, res) => {
       courseDesc: coursedesc,
       price: price,
       BasePrice: baseprice,
-      noOfStudents: no_of_students,
       image: image,
       isPublic: true,
     });

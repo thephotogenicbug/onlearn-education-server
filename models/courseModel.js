@@ -6,7 +6,7 @@ const courseSchema = mongoose.Schema(
     courseDesc: { type: String, required: true },
     price: { type: Number, required: true },
     Baseprice: { type: Number, required: true },
-    noOfStudents: { type: Number, required: true },
+    noOfStudents: { type: Number, default: 0 },
     image: { type: String, required: true },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
