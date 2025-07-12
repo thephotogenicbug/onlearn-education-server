@@ -42,7 +42,16 @@ export const adminregister = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7d exp time for cookie
     });
 
-    return res.json({ success: true });
+    return res.json({
+      success: true,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      },
+      token,
+    });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
@@ -68,9 +77,13 @@ export const adminlogin = async (req, res) => {
     }
 
     // generate token
-    const token = await jwt.sign({ id: user._id, isAdmin: user.isAdmin }, process.env.JWT_SECRET, {
-      expiresIn: "7d",
-    });
+    const token = await jwt.sign(
+      { id: user._id, isAdmin: user.isAdmin },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "7d",
+      }
+    );
 
     // send token in cookie
     res.cookie("token", token, {
@@ -80,7 +93,16 @@ export const adminlogin = async (req, res) => {
       maxAge: 7 * 24 * 60 * 60 * 1000, // 7d exp time for cookie
     });
 
-    return res.json({ success: true });
+    return res.json({
+      success: true,
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      },
+      token,
+    });
   } catch (error) {
     return res.json({ success: false, message: error.message });
   }
