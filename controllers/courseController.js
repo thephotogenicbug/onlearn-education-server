@@ -1,34 +1,38 @@
+import cloudinary from "../config/cloudinary.js";
 import courseModel from "../models/courseModel.js";
 
 // @post - new course
 export const newcourse = async (req, res) => {
-  const { coursename, coursedesc, price, baseprice, image } =
-    req.body;
+  const { coursename, coursedesc, price, baseprice, image } = req.body;
 
-  if (
-    !coursename ||
-    !coursedesc ||
-    !price ||
-    !baseprice ||
-    !image
-  ) {
+  if (!coursename || !coursedesc || !price || !baseprice || !req.file) {
     return res.json({ success: false, message: "missing course information" });
   }
 
   try {
+    // convert buffer to base64
+    const base64Image = `data:${
+      req.file.mimetype
+    };base64,${req.file.buffer.toString("base64")}`;
+
+    // upload to cloudinary
+    const result = await cloudinary.uploader.upload(base64Image, {
+      folder: "courses",
+    });
     const courses = courseModel({
       courseName: coursename,
       courseDesc: coursedesc,
       price: price,
       Baseprice: baseprice,
-      image: image,
+      image: result.secure_url,
       createdBy: req.user.id,
       isPublic: true,
     });
-    courses.save();
+    const course = await courses.save();
     return res.json({
       success: true,
       message: "course details saved successfully",
+      course,
     });
   } catch (error) {
     return res.json({ success: false, message: error.message });
@@ -38,16 +42,9 @@ export const newcourse = async (req, res) => {
 // @put - edit course
 export const updateCourse = async (req, res) => {
   const { id } = req.params;
-  const { coursename, coursedesc, price, baseprice, image } =
-    req.body;
+  const { coursename, coursedesc, price, baseprice, image } = req.body;
 
-  if (
-    !coursename ||
-    !coursedesc ||
-    !price ||
-    !baseprice ||
-    !image
-  ) {
+  if (!coursename || !coursedesc || !price || !baseprice || !image) {
     return res.json({ success: false, message: "missing course information" });
   }
 

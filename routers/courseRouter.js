@@ -8,10 +8,17 @@ import {
 } from "../controllers/courseController.js";
 import { isAdmin } from "../middleware/isAdmin.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
+import upload from "../middleware/multer.js";
 
 const courseRouter = express.Router();
 
-courseRouter.post("/new-course", authMiddleware, isAdmin, newcourse);
+courseRouter.post(
+  "/new-course",
+  authMiddleware,
+  isAdmin,
+  upload.single("image"),
+  newcourse
+);
 courseRouter.put("/update-course/:id", updateCourse);
 courseRouter.delete("/delete-course/:id", deleteCourse);
 courseRouter.get("/get-course-admin", authMiddleware, isAdmin, getAdminCourses);
