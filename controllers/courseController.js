@@ -42,21 +42,25 @@ export const newcourse = async (req, res) => {
 // @put - edit course
 export const updateCourse = async (req, res) => {
   const { id } = req.params;
-  const { coursename, coursedesc, price, baseprice, image } = req.body;
 
-  if (!coursename || !coursedesc || !price || !baseprice || !image) {
+  const { coursename, coursedesc, price, baseprice } = req.body;
+
+  if (!coursename || !coursedesc || !price || !baseprice) {
     return res.json({ success: false, message: "missing course information" });
   }
 
   try {
-    const updateCourse = await courseModel.findByIdAndUpdate(id, {
-      courseName: coursename,
-      courseDesc: coursedesc,
-      price: price,
-      BasePrice: baseprice,
-      image: image,
-      isPublic: true,
-    });
+    const updateCourse = await courseModel.findByIdAndUpdate(
+      id,
+      {
+        courseName: coursename,
+        courseDesc: coursedesc,
+        price: price,
+        BasePrice: baseprice,
+        isPublic: true,
+      },
+      { new: true }
+    );
     return res.json({
       success: true,
       message: "course details updated successfully",
