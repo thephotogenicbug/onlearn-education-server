@@ -2,6 +2,7 @@ import express from "express";
 import {
   deleteCourse,
   getAdminCourses,
+  getAdminCoursesById,
   getPublicCourses,
   newcourse,
   updateCourse,
@@ -28,6 +29,12 @@ courseRouter.put(
 );
 courseRouter.delete("/delete-course/:id", deleteCourse);
 courseRouter.get("/get-course-admin", authMiddleware, isAdmin, getAdminCourses);
+courseRouter.get(
+  "/get-course-admin/:id",
+  authMiddleware,
+  isAdmin,
+  getAdminCoursesById
+);
 courseRouter.get("/get-course-public", getPublicCourses);
 
 export default courseRouter;

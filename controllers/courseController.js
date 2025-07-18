@@ -109,3 +109,17 @@ export const getPublicCourses = async (req, res) => {
     return res.json({ success: false, message: error.message });
   }
 };
+
+export const getAdminCoursesById = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const course = await courseModel.findById(id);
+    if (!course) {
+      return res.json({ success: false, message: "no course data found" });
+    }
+    return res.json({ success: true, course: course });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
