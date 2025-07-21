@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import connectDB from "./config/mongodb.js";
 import courseRouter from "./routers/courseRouter.js";
 import authRouter from "./routers/adminRouter.js";
+import userRouter from "./routers/userRouter.js";
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 // course router
 app.use("/api/course", courseRouter);
 app.use("/api/admin", authRouter);
+app.use("/api/user", userRouter);
 
 app.listen(port, () => {
   console.log(`Server is working on port ${port}`);
