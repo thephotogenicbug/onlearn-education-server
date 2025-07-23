@@ -250,3 +250,23 @@ export const userLogout = async (req, res) => {
     return res.json({ success: false, message: error.message });
   }
 };
+
+export const getAdmin = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const user = await userModel.findById(userId).select("-password");
+    return res.json({ success: true, user });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
+
+export const getUser = async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const user = await userModel.findById(userId).select("-password");
+    return res.json({ success: true, user });
+  } catch (error) {
+    return res.json({ success: false, message: error.message });
+  }
+};
