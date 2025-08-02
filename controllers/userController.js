@@ -112,6 +112,7 @@ export const adminlogin = async (req, res) => {
 export const adminlogout = async (req, res) => {
   try {
     res.clearCookie("token", {
+      path: "/",
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
@@ -241,6 +242,7 @@ export const userLogin = async (req, res) => {
 export const userLogout = async (req, res) => {
   try {
     res.clearCookie("token", {
+      path: "/",
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
