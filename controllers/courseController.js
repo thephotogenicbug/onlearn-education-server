@@ -42,39 +42,52 @@ export const newcourse = async (req, res) => {
 // @put - edit course
 export const updateCourse = async (req, res) => {
   const { id } = req.params;
+  const { coursename, coursedesc, price, Baseprice } = req.body;
 
-  const { coursename, coursedesc, price, baseprice } = req.body;
-
-  if (!coursename || !coursedesc || !price || !baseprice) {
+  if (!coursename || !coursedesc || !price || !Baseprice) {
     return res.json({ success: false, message: "missing course information" });
   }
 
   try {
-    const updateCourse = await courseModel.findByIdAndUpdate(
-      id,
-      {
-        courseName: coursename,
-        courseDesc: coursedesc,
-        price: price,
-        BasePrice: baseprice,
-        isPublic: true,
-      },
-      { new: true }
-    );
+    const course = await courseModel.findById(id);
+    if (!course) {
+      return res.json({ success: false, message: "Course not found" });
+    }
+
+    // If a new image file is uploaded
+    if (req.file) {
+      // Convert buffer to base64
+      const base64Image = `data:${
+        req.file.mimetype
+      };base64,${req.file.buffer.toString("base64")}`;
+
+      // Upload to Cloudinary
+      const result = await cloudinary.uploader.upload(base64Image, {
+        folder: "courses",
+      });
+
+      course.image = result.secure_url;
+    }
+
+    // Update course fields
+    course.courseName = coursename;
+    course.courseDesc = coursedesc;
+    course.Baseprice = Baseprice;
+    course.price = price;
+
+    await course.save();
+
     return res.json({
       success: true,
       message: "course details updated successfully",
-      updateCourse,
+      updateCourse: course,
     });
   } catch (error) {
-    return res.json({
-      success: false,
-      message: error.message,
-    });
+    return res.json({ success: false, message: error.message });
   }
 };
 
-// @put - edit course
+// @put - delete course
 export const deleteCourse = async (req, res) => {
   const { id } = req.params;
 
